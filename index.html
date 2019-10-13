@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Match</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="manifest" href="/manifest.webmanifest">
+
+  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+  <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+  <style>
+    :root {
+      --size: 40px;
+      --border: #9e9e9e;
+      font-family: 'Montserrat', Arial, sans-serif;
+    }
+
+    .border-right {
+      border-right: 1px solid var(--border);
+    }
+
+    .border-bottom {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .border {
+      border-color: var(--border);
+    }
+
+    .center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .row {
+      width: 100%;
+      border-top: 1px solid var(--border);
+    }
+
+    .row:last-child {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .row h5 {
+      min-width: var(--size);
+      user-select: none;
+    }
+
+    .row.player:before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 50%;
+      width: calc(100% - 12px);
+      border-bottom: 1px solid#666;
+      transform: scaleX(0);
+      transition: all .05s ease-in-out;
+    }
+
+    .row.player.out:before {
+      transform: scaleX(1);
+    }
+
+    .settings {
+      cursor: pointer;
+      right: 10px;
+      top: 10px;
+      transition: all .3s ease-out;
+      height: 25px;
+    }
+
+    .settings svg {
+      width: 25px !important;
+      height: 25px;
+    }
+
+    .settings.open {
+      transform: rotate(90deg);
+    }
+
+    .svg-inline--fa.fa-w-11 {
+      width: 40px;
+      height: 25px;
+    }
+
+    .settings-menu {
+      position: fixed;
+      right: 0;
+      width: 300px;
+      background-color: white;
+      border-left: 1px solid var(--border);
+      transition: all .25s ease-out;
+      transform: translateX(100%);
+    }
+
+    .settings-menu.open {
+      transform: translateX(0);
+    }
+
+    input[type=range] {
+      -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+      width: 100%; /* Specific width is required for Firefox. */
+      background: transparent; /* Otherwise white in Chrome */
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      outline: none;
+    }
+
+    input[type=range]:focus {
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      margin-top: -4px;
+      border-radius: 10px;
+      background: #ffffff;
+      cursor: pointer;
+      background: white;
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8.4px;
+      cursor: pointer;
+      background: var(--border);
+      border-radius: 10px;
+    }
+
+    input[type=range]:focus::-webkit-slider-runnable-track {
+      background: #367ebd !important;
+    }
+
+    input[type=range]::-moz-range-track {
+      width: 100%;
+      height: 8.4px;
+      cursor: pointer;
+      background: var(--border);
+    }
+
+    input[type=range]::-ms-track {
+      width: 100%;
+      height: 8.4px;
+      cursor: pointer;
+      background: transparent;
+      border-color: transparent;
+      border-width: 16px 0;
+      color: transparent;
+    }
+    input[type=range]::-ms-fill-lower {
+      background: var(--border);
+      border-radius: 10px;
+    }
+    input[type=range]:focus::-ms-fill-lower {
+      background: var(--border);
+    }
+    input[type=range]::-ms-fill-upper {
+      background: var(--border);
+      border-radius: 10px;
+    }
+    input[type=range]:focus::-ms-fill-upper {
+      background: var(--border);
+    }
+  </style>
+</head>
+
+<body style="background: grey; height: 100vh; width: 100vw;">
+
+  <div id="Matos" class="relative h-full flex items-center justify-center">
+    <div class="folha p-4 h-full w-full" style="max-height: 812px; max-width: 600px; margin: auto; background: white;">
+      <div class="flex row items-center" style="border-top: none; height: var(--size);">
+        <h5 class="border-right center h-full font-bold">#</h5>
+      </div>
+
+      <div v-for="(player, playerIndex) in players" v-if="playerIndex < numberOfPlayers" class="player flex row relative"
+        :class="[player.crosses >= crossesPerPlayer ? 'out' : '']" style="height: var(--size); cursor: pointer;">
+        <h5 class="border-right center font-bold">{{ player.number }}</h5>
+
+        <ul class="flex">
+          <li v-for="index in parseInt(crossesPerPlayer)" class="border-right center" style="height: 100%; width: var(--size);">
+            <div v-if="player.crosses >= index" @click="removeCross(playerIndex)" class="h-full center">
+              <span class="center"><i class="fas fa-times"></i></span>
+            </div>
+
+            <div v-else @click="addCross(playerIndex)" class="h-full w-full"></div>
+          </li>
+        </ul>
+
+        <div @click="addFaul($event, playerIndex)" class="fouls p-1 flex items-start w-full">
+          <span v-for="i in player.fouls">
+            <i class="fas fa-circle pr-1"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-menu h-full w-full p-4 pt-12" :class="{ open: settingsOpen }">
+      <label class="w-full flex justify-between pt-4 pb-2">Número de Jogadores <span class="pl-2">{{numberOfPlayers}}</span></label>
+      <input type="range" id="crosses" class="w-full pb-8 mb-6 border-bottom" name="players" min="2" max="15" interval="1"
+        v-model="numberOfPlayers">
+
+      <label class="w-full flex justify-between pb-2">Número de cruzes <span class="pl-2">{{crossesPerPlayer}}</span></label>
+      <input type="range" id="crosses" class="w-full pb-4" name="crosses" min="1" max="6" interval="1" v-model="crossesPerPlayer">
+
+      <label class="w-full flex justify-between pb-2">Numero de faltas <span class="pl-2">{{foulsPerPlayer}}</span></label>
+      <input type="range" id="crosses" class="w-full pb-12" name="fouls" min="2" max="4" interval="1" v-model="foulsPerPlayer">
+
+      <button class="border px-4 py-2 w-full" @click="reset">Reiniciar</button>
+    </div>
+
+    <div class="settings absolute" :class="{ open: settingsOpen }" @click="settingsOpen = !settingsOpen">
+      <i class="fas fa-cog"></i>
+    </div>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script defer src="match.js"></script>
+</body>
+
+</html>

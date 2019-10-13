@@ -1,0 +1,22 @@
+{
+  "short_name": "Match",
+  "name": "Match",
+  "start_url": "index.html",
+  "background_color": "#666666",
+  "orientation": "portrait",
+  "display": "fullscreen",
+  "theme_color": "#FFFFFF",
+  "icons": [
+    {
+      "src": "/icons/8-ball-128.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "/icons/8-ball-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "service_worker": "sw.js"
+}
