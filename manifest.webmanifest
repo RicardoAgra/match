@@ -17,6 +17,5 @@
       "type": "image/png",
       "sizes": "512x512"
     }
-  ],
-  "service_worker": "sw.js"
+  ]
 }
