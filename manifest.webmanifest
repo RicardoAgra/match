@@ -8,12 +8,12 @@
   "theme_color": "#FFFFFF",
   "icons": [
     {
-      "src": "/icons/8-ball-128.png",
+      "src": "icons/8-ball-128.png",
       "type": "image/png",
       "sizes": "128x128"
     },
     {
-      "src": "/icons/8-ball-512.png",
+      "src": "icons/8-ball-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }

@@ -1,5 +1,12 @@
 window.addEventListener('load', () => {
   //registerSW();
+  if ('serviceWorker' in navigator) {
+    try {
+      await navigator.serviceWorker.unregister('./sw.js');
+    } catch (e) {
+      console.log('SW registration failed');
+    }
+  }
 });
 
 const registerSW = (async () => {
