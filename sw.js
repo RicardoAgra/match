@@ -2,7 +2,7 @@ try {
   importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js');
 
   workbox.routing.registerRoute(
-    /(127.0.0.1)/,
+    /https\:\/\/ricardoagra.github.io\/match/,
     new workbox.strategies.NetworkFirst({
       cacheName: 'Network first'
     })
