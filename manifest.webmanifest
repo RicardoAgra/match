@@ -1,25 +1,25 @@
 {
   "short_name": "Match",
   "name": "Match",
-  "start_url": "index.html",
-  "background_color": "#666666",
+  "start_url": "/",
+  "background_color": "#bbb",
   "orientation": "portrait",
   "display": "fullscreen",
-  "theme_color": "#FFFFFF",
+  "theme_color": "#000",
   "icons": [
     {
       "src": "icons/8-ball-144.png",
-      "type": "/image/png",
-      "sizes": "144x144"
+      "type": "image/png",
+      "sizes": "144x144 72x72 48x48 96x96"
     },
     {
       "src": "icons/8-ball-192.png",
-      "type": "/image/png",
+      "type": "image/png",
       "sizes": "192x192"
     },
     {
       "src": "icons/8-ball-512.png",
-      "type": "/image/png",
+      "type": "image/png",
       "sizes": "512x512"
     }
   ]
