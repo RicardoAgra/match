@@ -1,5 +1,5 @@
 window.addEventListener('load', () => {
-  //registerSW();
+  registerSW();
 });
 
 const registerSW = (async () => {
@@ -12,6 +12,8 @@ const registerSW = (async () => {
   }
 });
 
+const SERVER_URL = "";
+
 const Admin = new Vue({
   el: '#Matos',
   data: {
@@ -19,7 +21,8 @@ const Admin = new Vue({
     numberOfPlayers: 4,
     crossesPerPlayer: 4,
     foulsPerPlayer: 3,
-    settingsOpen: false
+    settingsOpen: false,
+    gameId: ""
   },
   created: function () {
     for (let i = 0; i < 15; i++) {
