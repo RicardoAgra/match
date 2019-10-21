@@ -1,7 +1,7 @@
 {
   "short_name": "Match",
   "name": "Match",
-  "start_url": "/",
+  "start_url": "https://ricardoagra.github.io/match/",
   "background_color": "#bbb",
   "orientation": "portrait",
   "display": "fullscreen",
