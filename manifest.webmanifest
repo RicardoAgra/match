@@ -1,16 +1,31 @@
 {
   "short_name": "Match",
   "name": "Match",
-  "start_url": "https://ricardoagra.github.io/match/",
+  "start_url": "/",
   "background_color": "#bbb",
   "orientation": "portrait",
   "display": "fullscreen",
   "theme_color": "#000",
   "icons": [
     {
+      "src": "icons/8-ball-48.png",
+      "type": "image/png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "icons/8-ball-72.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    },
+    {
+      "src": "icons/8-ball-96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
       "src": "icons/8-ball-144.png",
       "type": "image/png",
-      "sizes": "144x144 72x72 48x48 96x96"
+      "sizes": "144x144"
     },
     {
       "src": "icons/8-ball-192.png",
