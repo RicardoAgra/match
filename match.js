@@ -12,7 +12,7 @@ const registerSW = (async () => {
   }
 });
 
-const SERVER_URL = 'localhost:4040';//"match-bilhar.herokuapp.com";
+const SERVER_URL = "match-bilhar.herokuapp.com";
 const HTTP_URL = `https://${SERVER_URL}`;
 const WS_URL = `wss://${SERVER_URL}`;
 
