@@ -13,7 +13,7 @@ const registerSW = (async () => {
 });
 
 const SERVER_URL = "match-bilhar.herokuapp.com";
-const HTTP_URL = `http://${SERVER_URL}`;
+const HTTP_URL = `https://${SERVER_URL}`;
 const WS_URL = `wss://${SERVER_URL}`;
 
 const Admin = new Vue({
@@ -47,6 +47,8 @@ const Admin = new Vue({
         fouls: 0,
       });
     };
+
+    alert(WS_URL);
 
     console.log(WS_URL);
 
