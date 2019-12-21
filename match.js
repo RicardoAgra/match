@@ -48,8 +48,6 @@ const Admin = new Vue({
       });
     };
 
-    alert(WS_URL);
-
     console.log(WS_URL);
 
     this.hostSocket = new WebSocket(`${WS_URL}/match`);
