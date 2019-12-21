@@ -19,10 +19,11 @@
   <style>
     :root {
       --size: 40px;
-      --border: #bbb;
+      --border: #d8d8d8;
       --primary: #202124;
-      --secondary: #5f6368;
-      --active: #367ebd;
+      --secondary: #367ebd;
+      --active: #dc7f2c;
+      --focus: #dc7f2c;
 
       color: var(--primary);
       font-size: 16px;
@@ -31,6 +32,7 @@
 
     * {
       -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      transition: all .2s ease-out;
     }
 
     body {
@@ -107,19 +109,22 @@
 
     .settings {
       cursor: pointer;
-      right: 10px;
-      top: 10px;
-      transition: all .3s ease-out;
+      right: 15px;
+      top: 27px;
+      transition: all .3s ease-out 0s;
       height: 25px;
+      color: var(--secondary);
     }
 
     .settings svg {
+      color: inherit;
       width: 25px !important;
       height: 25px;
     }
 
     .settings.open {
       transform: rotate(-90deg);
+      color: var(--active);
     }
 
     .settings.disabled {
@@ -158,6 +163,10 @@
 
     .settings-menu.open {
       transform: translateX(0);
+    }
+
+    input:focus {
+      color: var(--active);
     }
 
     input[type=range] {
@@ -236,14 +245,13 @@
 <body>
 
   <div id="Match" class="relative h-full flex items-center justify-center">
-    <div class="folha p-4 h-full w-full shadow-lg" style="max-height: 812px; max-width: 600px; margin: auto; background: white;">
-      <div class="flex row items-center" style="border-top: none; height: var(--size);">
-        <h5 class="border-right center h-full font-bold">#</h5>
+    <div class="folha px-4 h-full w-full shadow-lg" style="max-height: 812px; max-width: 600px; margin: auto; background: white;">
+      <div class="flex row items-center" style="border-top: none; height: calc(var(--size) * 2);">
         <div v-if="watch.matchId !== undefined" class="pl-2 flex items-center justify-between w-full">
           <span class="h5 tracking-wider font-bold color-secondary uppercase text-sm">Match ID
-            <input type="text" class="pl-2 font-bold" style="width: 40px" v-model="watch.matchId">
+            <input type="text" class="pr-2 text-right border-b-2 font-bold rounded" style="width: 40px" v-model="watch.matchId">
           </span>
-          <button class="button px-3 py-1 mr-6 md:mr-0" :class="{pressed: watch.isWatching}" @click="watchMatch(watch.matchId)">{{
+          <button class="button px-3 py-1 mr-12 md:mr-0" :class="{pressed: watch.isWatching}" @click="watchMatch(watch.matchId)">{{
             watch.caption }}</button>
         </div>
       </div>
@@ -270,7 +278,7 @@
       </div>
     </div>
 
-    <div class="settings-menu h-full w-full p-4" @touchstart="swipeStart" @touchend="swipeEnd" :class="{ open: settingsOpen }">
+    <div class="settings-menu h-full w-full p-4 pt-8" @touchstart="swipeStart" @touchend="swipeEnd" :class="{ open: settingsOpen }">
       <h5 class="h5 tracking-wider font-bold color-secondary uppercase text-sm mb-6">Opções</h5>
 
       <label class="w-full flex justify-between pt-4 pb-2 color-secondary">Jogadores <span class="px-2 color-primary">{{settings.numberOfPlayers}}</span></label>

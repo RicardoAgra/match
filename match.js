@@ -13,8 +13,8 @@ const registerSW = (async () => {
 });
 
 const SERVER_URL = "match-bilhar.herokuapp.com";
-const HTTP_URL = `https://${SERVER_URL}`;
-const WS_URL = `wss://${SERVER_URL}`;
+const HTTP_URL = `http://${SERVER_URL}`;
+const WS_URL = `ws://${SERVER_URL}`;
 
 const Admin = new Vue({
   el: '#Match',
@@ -48,7 +48,11 @@ const Admin = new Vue({
       });
     };
 
+    console.log(WS_URL);
+
     this.hostSocket = new WebSocket(`${WS_URL}/match`);
+
+    console.log(this.hostSocket);
 
     this.hostSocket.onmessage = message => {
       this.match.matchId = message.data;
