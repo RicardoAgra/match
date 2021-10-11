@@ -1,310 +1,425 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<meta name="theme-color" content="#367ebd" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="theme-color" content="#367ebd">
+		<title>Match</title>
 
-  <title>Match</title>
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+		<link rel="manifest" href="manifest.webmanifest" />
 
-  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-  <link rel="manifest" href="manifest.webmanifest">
+		<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+		<link
+			href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap"
+			rel="stylesheet"
+		/>
+		<script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 
-  <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap" rel="stylesheet">
-  <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+		<style>
+			:root {
+				--size: 40px;
+				--border: #d8d8d8;
+				--primary: #202124;
+				--secondary: #367ebd;
+				--active: #dc7f2c;
+				--focus: #dc7f2c;
 
-  <style>
-    :root {
-      --size: 40px;
-      --border: #d8d8d8;
-      --primary: #202124;
-      --secondary: #367ebd;
-      --active: #dc7f2c;
-      --focus: #dc7f2c;
+				color: var(--primary);
+				font-size: 16px;
+				font-family: "Open Sans", Arial, sans-serif;
+			}
 
-      color: var(--primary);
-      font-size: 16px;
-      font-family: 'Open Sans', Arial, sans-serif;
-    }
+			* {
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+				transition: all 0.2s ease-out;
+			}
 
-    * {
-      -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-      transition: all .2s ease-out;
-    }
+			body {
+				background: #f5f5f5;
+				height: 100vh;
+				width: 100vw;
+			}
 
-    body {
-      background: #f5f5f5; height: 100vh; width: 100vw;
-    }
+			.border-right {
+				border-right: 1px solid var(--border);
+			}
 
-    .border-right {
-      border-right: 1px solid var(--border);
-    }
+			.border-bottom {
+				border-bottom: 1px solid var(--border);
+			}
 
-    .border-bottom {
-      border-bottom: 1px solid var(--border);
-    }
+			.border {
+				border-color: var(--border);
+			}
 
-    .border {
-      border-color: var(--border);
-    }
+			.button {
+				outline: none;
+				background-color: var(--secondary);
+				border-radius: 4px;
+				color: white;
+				transition: backgroundColor 0.2s ease-out;
+				-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+				-webkit-tap-highlight-color: transparent;
+			}
 
-    .button {
-      outline:  none;
-      background-color: var(--secondary);
-      border-radius: 4px;
-      color: white;
-      transition: backgroundColor .2s ease-out;
-      -webkit-tap-highlight-color: rgba(255, 255, 255, 0); 
-      -webkit-tap-highlight-color: transparent;
-    }
-    .button:active, button.pressed {
-      background-color: var(--active);
-    }
+			.button:active,
+			button.pressed {
+				background-color: var(--active);
+			}
 
-    .color-primary {
-      color: var(--primary);
-    }
+			.color-primary {
+				color: var(--primary);
+			}
 
-    .color-secondary {
-      color: var(--secondary);
-    }
+			.color-secondary {
+				color: var(--secondary);
+			}
 
-    .center {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+			.center {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
 
-    .row {
-      width: 100%;
-      border-top: 1px solid var(--border);
-    }
+			.row {
+				width: 100%;
+				border-top: 1px solid var(--border);
+			}
 
-    .row:last-child {
-      border-bottom: 1px solid var(--border);
-    }
+			.row:last-child {
+				border-bottom: 1px solid var(--border);
+			}
 
-    .row h5 {
-      min-width: var(--size);
-      user-select: none;
-    }
+			.row h5 {
+				min-width: var(--size);
+				user-select: none;
+			}
 
-    .row.player:before {
-      content: "";
-      position: absolute;
-      left: 6px;
-      top: 50%;
-      width: calc(100% - 12px);
-      border-bottom: 1px solid#666;
-      transform: scaleX(0);
-      transition: all .05s ease-in-out;
-    }
+			.row.player:before {
+				content: "";
+				position: absolute;
+				left: 6px;
+				top: 50%;
+				width: calc(100% - 12px);
+				border-bottom: 1px solid#666;
+				transform: scaleX(0);
+				transition: all 0.05s ease-in-out;
+			}
 
-    .row.player.out:before {
-      transform: scaleX(1);
-    }
+			.row.player.out:before {
+				transform: scaleX(1);
+			}
 
-    .settings {
-      cursor: pointer;
-      right: 15px;
-      top: 27px;
-      transition: all .3s ease-out 0s;
-      height: 25px;
-      color: var(--secondary);
-    }
+      .folha {
+        max-height: 812px;
+        max-width: 600px;
+        margin: auto;
+      }
 
-    .settings svg {
-      color: inherit;
-      width: 25px !important;
-      height: 25px;
-    }
+			.settings {
+				cursor: pointer;
+				right: 15px;
+				top: 27px;
+				transition: all 0.3s ease-out 0s;
+				height: 25px;
+				color: var(--secondary);
+			}
 
-    .settings.open {
-      transform: rotate(-90deg);
-      color: var(--active);
-    }
+			.settings svg {
+				color: inherit;
+				width: 25px !important;
+				height: 25px;
+			}
 
-    .settings.disabled {
-      color: var(--secondary);
-      cursor: not-allowed;
-    }
+			.settings.open {
+				transform: rotate(-90deg);
+				color: var(--active);
+			}
 
-    .settings.disabled:before {
-      content: "";
-      position: absolute;
-      width: 120%;
-      height: 3px;
-      transform: rotate(45deg);
-      top: 11px;
-      left: -10%;
-      border-top: 1px solid #bbb;
-      background: var(--secondary);
-      border-bottom: 1px solid #bbb;
-    }
+			.settings.disabled {
+				color: var(--secondary);
+				cursor: not-allowed;
+			}
 
-    .svg-inline--fa.fa-w-11 {
-      width: 40px;
-      height: 25px;
-    }
+			.settings.disabled:before {
+				content: "";
+				position: absolute;
+				width: 120%;
+				height: 3px;
+				transform: rotate(45deg);
+				top: 11px;
+				left: -10%;
+				border-top: 1px solid #bbb;
+				background: var(--secondary);
+				border-bottom: 1px solid #bbb;
+			}
 
-    .settings-menu {
-      position: fixed;
-      right: 0;
-      top: 0;
-      width: 300px;
-      background-color: white;
-      border-left: 1px solid var(--border);
-      transition: all .25s ease-out;
-      transform: translateX(100%);
-    }
+			.svg-inline--fa.fa-w-11 {
+				width: 40px;
+				height: 25px;
+			}
 
-    .settings-menu.open {
-      transform: translateX(0);
-    }
+			.settings-menu {
+				position: fixed;
+				right: 0;
+				top: 0;
+				width: 300px;
+				background-color: white;
+				border-left: 1px solid var(--border);
+				transition: all 0.25s ease-out;
+				transform: translateX(100%);
+			}
 
-    input:focus {
-      color: var(--active);
-    }
+			.settings-menu.open {
+				transform: translateX(0);
+			}
 
-    input[type=range] {
-      -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
-      width: 100%; /* Specific width is required for Firefox. */
-      background: transparent; /* Otherwise white in Chrome */
-    }
+			input:focus {
+				color: var(--active);
+			}
 
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      outline: none;
-    }
+			input[type="range"] {
+				-webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+				width: 100%; /* Specific width is required for Firefox. */
+				background: transparent; /* Otherwise white in Chrome */
+			}
 
-    input[type=range]:focus {
-      outline: none;
-    }
+			input[type="range"]::-webkit-slider-thumb {
+				-webkit-appearance: none;
+				outline: none;
+			}
 
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
-      margin-top: -4px;
-      border-radius: 10px;
-      background: #ffffff;
-      cursor: pointer;
-      background: white;
-      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-    }
+			input[type="range"]:focus {
+				outline: none;
+			}
 
-    input[type=range]::-webkit-slider-runnable-track {
-      width: 100%;
-      height: 9px;
-      cursor: pointer;
-      background: var(--border);
-      border-radius: 10px;
-    }
+			input[type="range"]::-webkit-slider-thumb {
+				-webkit-appearance: none;
+				width: 16px;
+				height: 16px;
+				margin-top: -4px;
+				border-radius: 10px;
+				background: #ffffff;
+				cursor: pointer;
+				background: white;
+				box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+			}
 
-    input[type=range].active::-webkit-slider-runnable-track,
-    input[type=range].active::-webkit-slider-runnable-track {
-      background: var(--active) !important;
-    }
+			input[type="range"]::-webkit-slider-runnable-track {
+				width: 100%;
+				height: 9px;
+				cursor: pointer;
+				background: var(--border);
+				border-radius: 10px;
+			}
 
-    input[type=range]::-moz-range-track {
-      width: 100%;
-      height: 9px;
-      cursor: pointer;
-      background: var(--border);
-    }
+			input[type="range"].active::-webkit-slider-runnable-track,
+			input[type="range"].active::-webkit-slider-runnable-track {
+				background: var(--active) !important;
+			}
 
-    input[type=range]::-ms-track {
-      width: 100%;
-      height: 9px;
-      cursor: pointer;
-      background: transparent;
-      border-color: transparent;
-      border-width: 16px 0;
-      color: transparent;
-    }
-    input[type=range]::-ms-fill-lower {
-      background: var(--border);
-      border-radius: 10px;
-    }
-    input[type=range]:focus::-ms-fill-lower {
-      background: var(--border);
-    }
-    input[type=range]::-ms-fill-upper {
-      background: var(--border);
-      border-radius: 10px;
-    }
-    input[type=range]:focus::-ms-fill-upper {
-      background: var(--border);
-    }
-  </style>
-</head>
+			input[type="range"]::-moz-range-track {
+				width: 100%;
+				height: 9px;
+				cursor: pointer;
+				background: var(--border);
+			}
 
-<body>
+			input[type="range"]::-ms-track {
+				width: 100%;
+				height: 9px;
+				cursor: pointer;
+				background: transparent;
+				border-color: transparent;
+				border-width: 16px 0;
+				color: transparent;
+			}
 
-  <div id="Match" class="relative h-full flex items-center justify-center">
-    <div class="folha px-4 h-full w-full shadow-lg" style="max-height: 812px; max-width: 600px; margin: auto; background: white;">
-      <div class="flex row items-center" style="border-top: none; height: calc(var(--size) * 2);">
-        <div v-if="watch.matchId !== undefined" class="pl-2 flex items-center justify-between w-full">
-          <span class="h5 tracking-wider font-bold color-secondary uppercase text-sm">Match ID
-            <input type="text" class="pr-2 text-right border-b-2 font-bold rounded" style="width: 40px" v-model="watch.matchId">
-          </span>
-          <button class="button px-3 py-1 mr-12 md:mr-0" :class="{pressed: watch.isWatching}" @click="watchMatch(watch.matchId)">{{
-            watch.caption }}</button>
-        </div>
-      </div>
+			input[type="range"]::-ms-fill-lower {
+				background: var(--border);
+				border-radius: 10px;
+			}
 
-      <div v-for="(player, playerIndex) in players" v-if="playerIndex < settings.numberOfPlayers" class="player flex row relative"
-        :class="[player.crosses >= settings.crossesPerPlayer ? 'out' : '']" style="height: var(--size); cursor: pointer;">
-        <h5 class="border-right center font-bold">{{ player.number }}</h5>
+			input[type="range"]:focus::-ms-fill-lower {
+				background: var(--border);
+			}
 
-        <ul class="flex">
-          <li v-for="index in parseInt(settings.crossesPerPlayer)" class="border-right center" style="height: 100%; width: var(--size);">
-            <div v-if="player.crosses >= index" @click="removeCross(playerIndex)" class="h-full center">
-              <span class="center"><i class="fas fa-times"></i></span>
-            </div>
+			input[type="range"]::-ms-fill-upper {
+				background: var(--border);
+				border-radius: 10px;
+			}
 
-            <div v-else @click="addCross(playerIndex)" class="h-full w-full"></div>
-          </li>
-        </ul>
+			input[type="range"]:focus::-ms-fill-upper {
+				background: var(--border);
+			}
+		</style>
+	</head>
 
-        <div @click="addRemoveFoul($event, playerIndex)" class="fouls p-1 flex items-start w-full">
-          <span v-for="i in player.fouls">
-            <i class="fas fa-circle pr-1"></i>
-          </span>
-        </div>
-      </div>
-    </div>
+	<body>
+		<div id="Match" class="relative h-full flex items-center justify-center">
+			<div
+				class="folha p-4 lg:p-8 h-full w-full shadow-lg bg-white"
+			>
+				<div
+					class="flex items-center pb-4 lg:pb-8"
+				>
+					<div
+						v-if="watch.matchId !== undefined"
+						class="pl-2 flex items-center justify-between w-full"
+					>
+						<span class="tracking-wider font-bold color-secondary uppercase text-sm"
+							>Match ID
+							<p
+								class="px-2 py-1 text-right border-1 font-bold rounded bg-blue-800 text-white"
+							/>{{ match.matchId }}</p>
+						</span>
+						<div>
+							<h1
+								class="
+									tracking-wider
+									font-bold
+									color-secondary
+									uppercase
+									text-sm
+                  pb-1
+								"
+							>
+								Assistir a Jogo
+							</h1>
+							<input v-model="watch.matchId" type="text" class="border border-gray-300 p-1 rounded mr-2 text-xs" placeholder="Inserir ID de Jogo"/>
+							<button
+								class="button px-3 py-1 mr-12 md:mr-0 uppercase text-xs font-bold tracking-wider"
+								:class="{pressed: watch.isWatching}"
+								@click="watchMatch(watch.matchId)"
+							>
+								{{ watch.caption }}
+							</button>
+						</div>
+					</div>
+				</div>
 
-    <div class="settings-menu h-full w-full p-4 pt-8" @touchstart="swipeStart" @touchend="swipeEnd" :class="{ open: settingsOpen }">
-      <h5 class="h5 tracking-wider font-bold color-secondary uppercase text-sm mb-6">Opções</h5>
+				<div
+					v-for="(player, playerIndex) in players"
+					v-if="playerIndex < settings.numberOfPlayers"
+					class="player flex row relative"
+					:class="[player.crosses >= settings.crossesPerPlayer ? 'out' : '']"
+					style="height: var(--size); cursor: pointer"
+				>
+					<h5 class="border-right center font-bold">{{ player.number }}</h5>
 
-      <label class="w-full flex justify-between pt-4 pb-2 color-secondary">Jogadores <span class="px-2 color-primary">{{settings.numberOfPlayers}}</span></label>
-      <input type="range" id="crosses" class="w-full pb-8 mb-6 border-bottom" name="players" min="2" max="15" interval="1"
-        v-model="settings.numberOfPlayers" @touchstart="setActive" @mousedown="setActive" @mouseup="unsetActive"
-        @touchend="unsetActive">
+					<ul class="flex">
+						<li
+							v-for="index in parseInt(settings.crossesPerPlayer)"
+							class="border-right center"
+							style="height: 100%; width: var(--size)"
+						>
+							<div
+								v-if="player.crosses >= index"
+								@click="removeCross(playerIndex)"
+								class="h-full center"
+							>
+								<span class="center"><i class="fas fa-times"></i></span>
+							</div>
 
-      <label class="w-full flex justify-between pb-2 color-secondary">Cruzes <span class="px-2 color-primary">{{settings.crossesPerPlayer}}</span></label>
-      <input type="range" id="crosses" class="w-full pb-4" name="crosses" min="1" max="6" interval="1" v-model="settings.crossesPerPlayer"
-        @touchstart="setActive" @mousedown="setActive" @mouseup="unsetActive" @touchend="unsetActive">
+							<div v-else @click="addCross(playerIndex)" class="h-full w-full"></div>
+						</li>
+					</ul>
 
-      <label class="w-full flex justify-between pb-2 color-secondary">Faltas <span class="px-2 color-primary">{{settings.foulsPerPlayer}}</span></label>
-      <input type="range" id="crosses" class="w-full pb-12" name="fouls" min="2" max="4" interval="1" v-model="settings.foulsPerPlayer"
-        @touchstart="setActive" @mousedown="setActive" @mouseup="unsetActive" @touchend="unsetActive">
+					<div
+						@click="addRemoveFoul($event, playerIndex)"
+						class="fouls p-1 flex items-start w-full"
+					>
+						<span v-for="i in player.fouls">
+							<i class="fas fa-circle pr-1"></i>
+						</span>
+					</div>
+				</div>
+			</div>
 
-      <button class="button px-4 py-2 w-full" @click="reset">Reiniciar</button>
-    </div>
+			<div
+				class="settings-menu h-full w-full p-4 pt-8"
+				@touchstart="swipeStart"
+				@touchend="swipeEnd"
+				:class="{ open: settingsOpen }"
+			>
+				<h5 class="h5 tracking-wider font-bold color-secondary uppercase text-sm mb-6">
+					Opções
+				</h5>
 
-    <div class="settings absolute" :class="{open: settingsOpen, disabled: watch.isWatching}" @click="openSettings">
-      <i class="fas fa-cog"></i>
-    </div>
-  </div>
+				<label class="w-full flex justify-between pt-4 pb-2 color-secondary"
+					>Jogadores
+					<span class="px-2 color-primary">{{settings.numberOfPlayers}}<span class="text-xs">/15</span></span></label
+				>
+				<input
+					type="range"
+					id="crosses"
+					class="w-full pb-8 mb-6 border-bottom"
+					name="players"
+					min="2"
+					max="15"
+					interval="1"
+					v-model="settings.numberOfPlayers"
+					@touchstart="setActive"
+					@mousedown="setActive"
+					@mouseup="unsetActive"
+					@touchend="unsetActive"
+				/>
 
-  <script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-  <script defer src="match.js"></script>
-</body>
+				<label class="w-full flex justify-between pb-2 color-secondary"
+					>Cruzes
+					<span class="px-2 color-primary">{{settings.crossesPerPlayer}}<span class="text-xs">/6</span></span></label
+				>
+				<input
+					type="range"
+					id="crosses"
+					class="w-full pb-4"
+					name="crosses"
+					min="1"
+					max="6"
+					interval="1"
+					v-model="settings.crossesPerPlayer"
+					@touchstart="setActive"
+					@mousedown="setActive"
+					@mouseup="unsetActive"
+					@touchend="unsetActive"
+				/>
 
+				<label class="w-full flex justify-between pb-2 color-secondary"
+					>Faltas
+					<span class="px-2 color-primary">{{settings.foulsPerPlayer}}<span class="text-xs">/4</span></span></label
+				>
+				<input
+					type="range"
+					id="crosses"
+					class="w-full pb-12"
+					name="fouls"
+					min="2"
+					max="4"
+					interval="1"
+					v-model="settings.foulsPerPlayer"
+					@touchstart="setActive"
+					@mousedown="setActive"
+					@mouseup="unsetActive"
+					@touchend="unsetActive"
+				/>
+
+				<button class="button px-4 py-2 w-full" @click="reset">Reiniciar</button>
+			</div>
+
+			<div
+				class="settings absolute"
+				:class="{open: settingsOpen, disabled: watch.isWatching}"
+				@click="openSettings"
+			>
+				<i class="fas fa-cog"></i>
+			</div>
+		</div>
+
+		<script defer src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+		<script defer src="match.js"></script>
+	</body>
 </html>
